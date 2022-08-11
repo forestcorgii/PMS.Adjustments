@@ -7,9 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pms.Adjustments.Domain", "P
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pms.Adjustments.Persistence", "Pms.Adjustments.Persistence\Pms.Adjustments.Persistence.csproj", "{DBDF9546-BDBD-46B3-998D-D1E2B7B24956}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pms.Adjustments.Test", "Pms.Adjustments.Test\Pms.Adjustments.Test.csproj", "{066DE85A-8DD5-4BD0-9C4F-3C95FD10435E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pms.Adjustments.ServiceLayer.EfCore", "Pms.Adjustments.ServiceLayer.EfCore\Pms.Adjustments.ServiceLayer.EfCore.csproj", "{2E56B521-07B1-479D-ADFB-E6F9E25529E0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pms.Adjustments.Test", "Pms.Adjustments.Test\Pms.Adjustments.Test.csproj", "{066DE85A-8DD5-4BD0-9C4F-3C95FD10435E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +27,6 @@ Global
 		{066DE85A-8DD5-4BD0-9C4F-3C95FD10435E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{066DE85A-8DD5-4BD0-9C4F-3C95FD10435E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{066DE85A-8DD5-4BD0-9C4F-3C95FD10435E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2E56B521-07B1-479D-ADFB-E6F9E25529E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2E56B521-07B1-479D-ADFB-E6F9E25529E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2E56B521-07B1-479D-ADFB-E6F9E25529E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2E56B521-07B1-479D-ADFB-E6F9E25529E0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

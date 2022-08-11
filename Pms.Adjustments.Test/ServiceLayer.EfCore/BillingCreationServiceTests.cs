@@ -17,13 +17,13 @@ namespace Pms.Adjustments.ServiceLayer.EfCore.Tests
     public class BillingCreationServiceTests
     {
         private TestDatabaseFixture _fixture;
-        private IBillingCreationService _billingCreationService;
+        private IManageBillingService _billingCreationService;
         private Cutoff _cutoff;
 
         public BillingCreationServiceTests()
         {
             _fixture = new();
-            _billingCreationService = new BillingCreationService(_fixture.Factory);
+            _billingCreationService = new ManageBillingService(_fixture.Factory);
             _cutoff = new();
         }
 

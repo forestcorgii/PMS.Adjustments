@@ -10,7 +10,7 @@ namespace Pms.Adjustments.Persistence
 
         public void Configure(EntityTypeBuilder<Billing> builder)
         {
-            builder.HasKey(pcv => pcv.BillingId);
+            builder.ToTable("adjustment_billing").HasKey(pcv => pcv.BillingId);
 
             builder
                .HasOne(rec => rec.EE)

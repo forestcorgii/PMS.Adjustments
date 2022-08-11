@@ -1,4 +1,5 @@
-﻿using Pms.Adjustments.Domain;
+﻿using Microsoft.EntityFrameworkCore;
+using Pms.Adjustments.Domain;
 using Pms.Adjustments.Domain.Exceptions;
 using Pms.Adjustments.Domain.Models;
 using Pms.Adjustments.Domain.Services;
@@ -10,9 +11,9 @@ namespace Pms.Adjustments.ServiceLayer.EfCore
 {
     public class ManageBillingService : IManageBillingService
     {
-        private AdjustmentDbContextFactory _factory;
+        private IDbContextFactory<AdjustmentDbContext> _factory;
 
-        public ManageBillingService(AdjustmentDbContextFactory factory)
+        public ManageBillingService(IDbContextFactory<AdjustmentDbContext> factory)
         {
             _factory = factory;
         }

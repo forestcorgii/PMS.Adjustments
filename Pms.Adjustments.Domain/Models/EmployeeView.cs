@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,7 +9,6 @@ namespace Pms.Adjustments.Domain
 {
     public class EmployeeView
     {
-
         public string EEId { get; private set; }
 
         public string FirstName { get; private set; }

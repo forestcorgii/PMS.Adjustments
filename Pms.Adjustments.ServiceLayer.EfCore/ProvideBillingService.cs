@@ -1,4 +1,5 @@
-﻿using Pms.Adjustments.Domain.Services;
+﻿using Pms.Adjustments.Domain;
+using Pms.Adjustments.Domain.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,9 @@ namespace Pms.Adjustments.ServiceLayer.EfCore
 {
     public class ProvideBillingService : IProvideBillingService
     {
-
+        public IEnumerable<Billing> GetBillings(string eeId, string cutoffId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

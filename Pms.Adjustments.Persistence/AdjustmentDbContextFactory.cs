@@ -1,10 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
-
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Pms.Adjustments.Persistence
 {
-    public class AdjustmentDbContextFactory
+    public class AdjustmentDbContextFactory : IDbContextFactory<AdjustmentDbContext>
     {
 
         private readonly string _connectionString;
@@ -23,6 +26,7 @@ namespace Pms.Adjustments.Persistence
                 )
                 .Options;
 
+            //return new AdjustmentDbContext();
             return new AdjustmentDbContext(dbContextOptions);
         }
     }

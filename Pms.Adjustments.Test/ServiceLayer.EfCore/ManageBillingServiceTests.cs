@@ -11,19 +11,20 @@ using Pms.Adjustments.Domain;
 using Pms.Adjustments.Domain.Services;
 using Pms.Adjustments.Domain.Models;
 using Pms.Adjustments.Domain.Exceptions;
+using Microsoft.EntityFrameworkCore;
 
 namespace Pms.Adjustments.ServiceLayer.EfCore.Tests
 {
-    public class BillingCreationServiceTests
+    public class ManageBillingServiceTests
     {
-        private TestDatabaseFixture _fixture;
+        private IDbContextFactory<AdjustmentDbContext> _fixture;
         private IManageBillingService _billingCreationService;
         private Cutoff _cutoff;
 
-        public BillingCreationServiceTests()
+        public ManageBillingServiceTests()
         {
-            _fixture = new();
-            _billingCreationService = new ManageBillingService(_fixture.Factory);
+            _fixture = new AdjustmentDbContextFactoryFixture();
+            _billingCreationService = new ManageBillingService(_fixture);
             _cutoff = new();
         }
 
@@ -31,7 +32,7 @@ namespace Pms.Adjustments.ServiceLayer.EfCore.Tests
         [Fact]
         public void ShouldAddBilling()
         {
-            using AdjustmentDbContext context = _fixture.CreateContext();
+            using AdjustmentDbContext context = _fixture.CreateDbContext();
             Billing expectedBilling = new()
             {
                 BillingId = $"DYYJ_PCV_{_cutoff.CutoffId}_1",
@@ -55,7 +56,7 @@ namespace Pms.Adjustments.ServiceLayer.EfCore.Tests
         {
             Assert.Throws<OldBillingException>(() =>
             {
-                using AdjustmentDbContext context = _fixture.CreateContext();
+                using AdjustmentDbContext context = _fixture.CreateDbContext();
                 _billingCreationService.ResetBillings("DYYJ", "2207-1");
             });
         }
@@ -64,7 +65,7 @@ namespace Pms.Adjustments.ServiceLayer.EfCore.Tests
         [Fact]
         public void ShouldResetEEBillingsByCutoffId()
         {
-            using AdjustmentDbContext context = _fixture.CreateContext();
+            using AdjustmentDbContext context = _fixture.CreateDbContext();
 
             _billingCreationService.ResetBillings("DYYJ", _cutoff.CutoffId);
 
@@ -82,12 +83,12 @@ namespace Pms.Adjustments.ServiceLayer.EfCore.Tests
         {
             Assert.Throws<OldBillingException>(() =>
             {
-                using AdjustmentDbContext context = _fixture.CreateContext();
+                using AdjustmentDbContext context = _fixture.CreateDbContext();
                 Billing expectedBilling = new()
                 {
-                    BillingId = "DYYJ_PCV_2207-1_1",
+                    BillingId = "DYYJ_PCV_2207-2_1",
                     EEId = "DYYJ",
-                    CutoffId = "2207-1",
+                    CutoffId = "2207-2",
                     AdjustmentName = "PCV",
                     Amount = 600,
                     Deducted = true,

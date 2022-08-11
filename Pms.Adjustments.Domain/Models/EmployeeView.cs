@@ -8,6 +8,7 @@ namespace Pms.Adjustments.Domain
 {
     public class EmployeeView
     {
+
         public string EEId { get; private set; }
 
         public string FirstName { get; private set; }

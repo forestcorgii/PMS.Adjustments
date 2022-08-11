@@ -2,28 +2,26 @@ using Pms.Adjustments.Domain;
 using System;
 using Xunit;
 
-namespace Pms.Adjustments.Domain.Tests
+namespace Pms.Adjustments.Domain.Tests.Domain.Models
 {
-    public class AdjustmentBillingTests
+    public class BillingTests
     {
-
-
         [Theory]
         [InlineData("DYYJ_PCV", "2208-1", "0", "DYYJ_PCV_2208-1_0")]
         [InlineData("TEST_ALLOWANCE", "2208-2", "1", "TEST_ALLOWANCE_2208-2_1")]
         public void GenerateIdWithRecordIdTestShouldEqual(string recordId, string cutoffId, string iterator, string expected)
         {
-            // ARRANGE
-            AdjustmentBilling _sut = new()
+            // GIVEN
+            Billing _sut = new()
             {
                 RecordId = recordId,
                 CutoffId = cutoffId
             };
 
-            //ACT
-            string actual = AdjustmentBilling.GenerateId(_sut,iterator);
+            //WHEN
+            string actual = Billing.GenerateId(_sut,iterator);
 
-            //ASSERT
+            // THEN
             Assert.Equal(expected, actual);
         }
 
@@ -33,18 +31,18 @@ namespace Pms.Adjustments.Domain.Tests
         [InlineData("TEST", "ALLOWANCE", "2208-2", "1", "TEST_ALLOWANCE_2208-2_1")]
         public void GenerateIdWithoutRecordIdTestShouldEqual(string eeId, string adjustmentName, string cutoffId, string iterator, string expected)
         {
-            // ARRANGE
-            AdjustmentBilling _sut = new()
+            // GIVEN
+            Billing _sut = new()
             {
                 EEId = eeId,
                 AdjustmentName = adjustmentName,
                 CutoffId = cutoffId
             };
 
-            //ACT
-            string actual = AdjustmentBilling.GenerateId(_sut, iterator);
+            // WHEN
+            string actual = Billing.GenerateId(_sut, iterator);
 
-            //ASSERT
+            // THEN
             Assert.Equal(expected, actual);
         }
     }

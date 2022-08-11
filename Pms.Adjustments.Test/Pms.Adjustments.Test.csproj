@@ -21,6 +21,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Pms.Adjustments.Domain\Pms.Adjustments.Domain.csproj" />
+    <ProjectReference Include="..\Pms.Adjustments.Persistence\Pms.Adjustments.Persistence.csproj" />
+    <ProjectReference Include="..\Pms.Adjustments.ServiceLayer.EfCore\Pms.Adjustments.ServiceLayer.EfCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Domain\Services\" />
   </ItemGroup>
 
 </Project>

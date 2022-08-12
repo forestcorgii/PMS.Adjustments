@@ -7,9 +7,9 @@ namespace Pms.Adjustments.Domain.Tests.Domain.Models
     public class BillingTests
     {
         [Theory]
-        [InlineData("DYYJ_PCV", "2208-1", "0", "DYYJ_PCV_2208-1_0")]
-        [InlineData("TEST_ALLOWANCE", "2208-2", "1", "TEST_ALLOWANCE_2208-2_1")]
-        public void GenerateIdWithRecordIdTestShouldEqual(string recordId, string cutoffId, string iterator, string expected)
+        [InlineData("DYYJ_PCV", "2208-1", 0, "DYYJ_PCV_2208-1_0")]
+        [InlineData("TEST_ALLOWANCE", "2208-2", 1, "TEST_ALLOWANCE_2208-2_1")]
+        public void GenerateIdWithRecordIdTestShouldEqual(string recordId, string cutoffId, int iterator, string expected)
         {
             // GIVEN
             Billing _sut = new()
@@ -19,7 +19,7 @@ namespace Pms.Adjustments.Domain.Tests.Domain.Models
             };
 
             //WHEN
-            string actual = Billing.GenerateId(_sut,iterator);
+            string actual = Billing.GenerateId(_sut, iterator);
 
             // THEN
             Assert.Equal(expected, actual);
@@ -27,9 +27,9 @@ namespace Pms.Adjustments.Domain.Tests.Domain.Models
 
 
         [Theory]
-        [InlineData("DYYJ", "PCV", "2208-1", "0", "DYYJ_PCV_2208-1_0")]
-        [InlineData("TEST", "ALLOWANCE", "2208-2", "1", "TEST_ALLOWANCE_2208-2_1")]
-        public void GenerateIdWithoutRecordIdTestShouldEqual(string eeId, string adjustmentName, string cutoffId, string iterator, string expected)
+        [InlineData("DYYJ", "PCV", "2208-1", 0, "DYYJ_PCV_2208-1_0")]
+        [InlineData("TEST", "ALLOWANCE", "2208-2", 1, "TEST_ALLOWANCE_2208-2_1")]
+        public void GenerateIdWithoutRecordIdTestShouldEqual(string eeId, string adjustmentName, string cutoffId, int iterator, string expected)
         {
             // GIVEN
             Billing _sut = new()

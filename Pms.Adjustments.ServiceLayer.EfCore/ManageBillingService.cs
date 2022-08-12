@@ -11,7 +11,7 @@ namespace Pms.Adjustments.ServiceLayer.EfCore
 {
     public class ManageBillingService : IManageBillingService
     {
-        private IDbContextFactory<AdjustmentDbContext> _factory;
+        protected IDbContextFactory<AdjustmentDbContext> _factory;
 
         public ManageBillingService(IDbContextFactory<AdjustmentDbContext> factory)
         {

@@ -16,7 +16,7 @@ namespace Pms.Adjustments.Persistence
         {
             builder.ToView("timesheet").HasKey(ee => ee.TimesheetId);
 
-            builder.Property(cc => cc.TimesheetId);
+            builder.Property(cc => cc.TimesheetId).HasColumnName("id");
             builder.Property(cc => cc.EEId);
             builder.Property(cc => cc.CutoffId);
             builder.Property(cc => cc.Allowance);

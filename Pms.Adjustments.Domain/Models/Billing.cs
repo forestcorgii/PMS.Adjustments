@@ -29,7 +29,7 @@ namespace Pms.Adjustments.Domain
         public override string ToString() => BillingId is not null ? BillingId : "EMPTY BILLING";
 
 
-        public static string GenerateId(Billing bil, string iterator="0") =>
+        public static string GenerateId(Billing bil, int iterator = 0) =>
             $"{(bil.RecordId is not null && bil.RecordId != "" ? bil.RecordId : $"{bil.EEId}_{bil.AdjustmentName}")}_" +
             $"{bil.CutoffId}_{iterator}";
     }

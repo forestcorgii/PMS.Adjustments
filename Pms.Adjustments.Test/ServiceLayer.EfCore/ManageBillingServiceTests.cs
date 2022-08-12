@@ -17,14 +17,14 @@ namespace Pms.Adjustments.ServiceLayer.EfCore.Tests
 {
     public class ManageBillingServiceTests
     {
-        private IDbContextFactory<AdjustmentDbContext> _fixture;
-        private IManageBillingService _billingCreationService;
+        private IDbContextFactory<AdjustmentDbContext> _factory;
+        private IManageBillingService _manageBillingService;
         private Cutoff _cutoff;
 
         public ManageBillingServiceTests()
         {
-            _fixture = new AdjustmentDbContextFactoryFixture();
-            _billingCreationService = new ManageBillingService(_fixture);
+            _factory = new AdjustmentDbContextFactoryFixture();
+            _manageBillingService = new ManageBillingService(_factory);
             _cutoff = new();
         }
 
@@ -32,10 +32,10 @@ namespace Pms.Adjustments.ServiceLayer.EfCore.Tests
         [Fact]
         public void ShouldAddBilling()
         {
-            using AdjustmentDbContext context = _fixture.CreateDbContext();
+            using AdjustmentDbContext context = _factory.CreateDbContext();
             Billing expectedBilling = new()
             {
-                BillingId = $"DYYJ_PCV_{_cutoff.CutoffId}_1",
+                BillingId = $"DYYJ_PCV_{_cutoff.CutoffId}_4",
                 EEId = "DYYJ",
                 CutoffId = _cutoff.CutoffId,
                 AdjustmentName = "PCV",
@@ -45,19 +45,22 @@ namespace Pms.Adjustments.ServiceLayer.EfCore.Tests
                 AdjustmentType = AdjustmentChoices.ADJUST1
             };
 
-            _billingCreationService.AddBilling(expectedBilling);
+            _manageBillingService.AddBilling(expectedBilling);
 
 
-            Billing actualBilling = context.Billings.Where(b => b.BillingId == $"DYYJ_PCV_{_cutoff.CutoffId}_1").FirstOrDefault();
+            Billing actualBilling = context.Billings.Where(b => b.BillingId == $"DYYJ_PCV_{_cutoff.CutoffId}_4").FirstOrDefault();
             Assert.NotNull(actualBilling);
+
+            context.Remove(actualBilling);
+            context.SaveChanges();
         }
         [Fact]
         public void ShouldThrowOldBillingExceptionWhenResettingBilling()
         {
             Assert.Throws<OldBillingException>(() =>
             {
-                using AdjustmentDbContext context = _fixture.CreateDbContext();
-                _billingCreationService.ResetBillings("DYYJ", "2207-1");
+                using AdjustmentDbContext context = _factory.CreateDbContext();
+                _manageBillingService.ResetBillings("DYYJ", "2207-1");
             });
         }
 
@@ -65,12 +68,12 @@ namespace Pms.Adjustments.ServiceLayer.EfCore.Tests
         [Fact]
         public void ShouldResetEEBillingsByCutoffId()
         {
-            using AdjustmentDbContext context = _fixture.CreateDbContext();
+            using AdjustmentDbContext context = _factory.CreateDbContext();
 
-            _billingCreationService.ResetBillings("DYYJ", _cutoff.CutoffId);
+            _manageBillingService.ResetBillings("FJFC", _cutoff.CutoffId);
 
             bool hasEEBillingsRemains = context.Billings
-                .Where(b => b.EEId == "DYYJ")
+                .Where(b => b.EEId == "FJFC")
                 .Where(b => b.CutoffId == _cutoff.CutoffId).Any();
 
             bool hasAnyBillingsRemains = context.Billings.Any();
@@ -83,11 +86,11 @@ namespace Pms.Adjustments.ServiceLayer.EfCore.Tests
         {
             Assert.Throws<OldBillingException>(() =>
             {
-                using AdjustmentDbContext context = _fixture.CreateDbContext();
+                using AdjustmentDbContext context = _factory.CreateDbContext();
                 Billing expectedBilling = new()
                 {
-                    BillingId = "DYYJ_PCV_2207-2_1",
-                    EEId = "DYYJ",
+                    BillingId = "FJFC_PCV_2207-2_1",
+                    EEId = "FJFC",
                     CutoffId = "2207-2",
                     AdjustmentName = "PCV",
                     Amount = 600,
@@ -96,7 +99,7 @@ namespace Pms.Adjustments.ServiceLayer.EfCore.Tests
                     AdjustmentType = AdjustmentChoices.ADJUST1
                 };
 
-                _billingCreationService.AddBilling(expectedBilling);
+                _manageBillingService.AddBilling(expectedBilling);
             });
         }
 

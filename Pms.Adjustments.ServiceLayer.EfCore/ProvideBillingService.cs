@@ -1,5 +1,7 @@
-﻿using Pms.Adjustments.Domain;
+﻿using Microsoft.EntityFrameworkCore;
+using Pms.Adjustments.Domain;
 using Pms.Adjustments.Domain.Services;
+using Pms.Adjustments.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +12,35 @@ namespace Pms.Adjustments.ServiceLayer.EfCore
 {
     public class ProvideBillingService : IProvideBillingService
     {
+        protected IDbContextFactory<AdjustmentDbContext> _factory;
+
+        public ProvideBillingService(IDbContextFactory<AdjustmentDbContext> factory)
+        {
+            _factory = factory;
+        }
+
+
+        public double GetTotalAdvances(string eeId, string cutoffId) =>
+            GetBillings(eeId, cutoffId)
+                .Where(b => b.Deducted)
+                .Sum(b => b.Amount);
+
+
         public IEnumerable<Billing> GetBillings(string eeId, string cutoffId)
         {
-            throw new NotImplementedException();
+            var context = _factory.CreateDbContext();
+            return context.Billings
+                .Where(b => b.EEId == eeId)
+                .Where(b => b.CutoffId == cutoffId)
+                .ToList();
+        }
+
+        public IEnumerable<Billing> GetBillings(string cutoffId)
+        {
+            var context = _factory.CreateDbContext();
+            return context.Billings
+                .Where(b => b.CutoffId == cutoffId)
+                .ToList();
         }
     }
 }

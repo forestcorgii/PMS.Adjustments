@@ -8,6 +8,8 @@ namespace Pms.Adjustments.Domain.Services
 {
     public interface IProvideBillingService
     {
-        IEnumerable<Billing> GetBillings(string eeId,string cutoffId);
+        double GetTotalAdvances(string eeId, string cutoffId);
+        IEnumerable < Billing> GetBillings(string eeId,string cutoffId);
+        IEnumerable < Billing> GetBillings(string cutoffId);
     }
 }

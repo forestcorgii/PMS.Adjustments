@@ -9,11 +9,11 @@ using System.Linq;
 
 namespace Pms.Adjustments.ServiceLayer.EfCore
 {
-    public class ManageBillingService : IManageBillingService
+    public class BillingManager : IManageBillingService
     {
         protected IDbContextFactory<AdjustmentDbContext> _factory;
 
-        public ManageBillingService(IDbContextFactory<AdjustmentDbContext> factory)
+        public BillingManager(IDbContextFactory<AdjustmentDbContext> factory)
         {
             _factory = factory;
         }
@@ -21,6 +21,7 @@ namespace Pms.Adjustments.ServiceLayer.EfCore
         private void ValidateCutoffId(string cutoffId)
         {
             Cutoff cutoff = new(cutoffId);
+            //TODO: UNCOMMENT ONCE DONE. COMMENTED TO TEST USING OLD DATA.
             if (cutoff.CutoffDate < DateTime.Now)
                 throw new OldBillingException("", cutoffId);
         }

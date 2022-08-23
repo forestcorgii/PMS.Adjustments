@@ -12,15 +12,7 @@ namespace Pms.Adjustments.Persistence
         public DbSet<TimesheetView> Timesheets => Set<TimesheetView>();
 
         public AdjustmentDbContext(DbContextOptions options) : base(options) { }
-
-        //public AdjustmentDbContext() { }
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    optionsBuilder.UseMySQL("server=localhost;database=payroll3_efdb;user=root;password=Soft1234;", options =>
-        //        options.MigrationsHistoryTable("AdjustmentsMigrationHistory"));
-        //}
-        //"server=localhost;database=payroll3_efdb;user=root;password=Soft1234;"
-
+ 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new BillingConfiguration());

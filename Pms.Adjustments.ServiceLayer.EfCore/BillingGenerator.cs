@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 
 namespace Pms.Adjustments.ServiceLayer.EfCore
 {
-    public class GenerateBillingService : IGenerateBillingService
+    public class BillingGenerator : IGenerateBillingService
     {
         protected IDbContextFactory<AdjustmentDbContext> _factory;
         //private IManageBillingService _manageBillingService;
 
-        public GenerateBillingService(IDbContextFactory<AdjustmentDbContext> factory)
+        public BillingGenerator(IDbContextFactory<AdjustmentDbContext> factory)
         {
             _factory = factory;
             //_manageBillingService = manageBillingService;
@@ -23,16 +23,22 @@ namespace Pms.Adjustments.ServiceLayer.EfCore
 
         public IEnumerable<Billing> GenerateBillingFromRecords(string eeId, string cutoffId)
         {
-            throw new NotImplementedException();
+            return default;
         }
 
         public IEnumerable<Billing> GenerateBillingFromTimesheetView(string eeId, string cutoffId)
         {
             using AdjustmentDbContext context = _factory.CreateDbContext();
-            List<TimesheetView> timesheetsWithAllowance = context.Timesheets.Where(ts => ts.Allowance > 0).ToList();
-            List<TimesheetView> timesheetsWithPCV = context.Timesheets.Where(ts => ts.RawPCV != "").ToList();
+            IEnumerable<TimesheetView> eeTimesheets = context.Timesheets
+                .Where(ts => ts.EEId == eeId)
+                .Where(ts => ts.CutoffId == cutoffId)
+                .ToList();
+            
+            
 
             List<Billing> billings = new();
+
+            IEnumerable<TimesheetView> timesheetsWithAllowance = eeTimesheets.Where(ts => ts.Allowance > 0);
             foreach (TimesheetView timesheet in timesheetsWithAllowance)
             {
                 var billing = new Billing()
@@ -49,6 +55,7 @@ namespace Pms.Adjustments.ServiceLayer.EfCore
                 billings.Add(billing);
             }
 
+            IEnumerable<TimesheetView> timesheetsWithPCV = eeTimesheets.Where(ts => ts.RawPCV != "");
             foreach (TimesheetView timesheet in timesheetsWithPCV)
             {
                 string[] rawPCVs = timesheet.RawPCV.Split("|");

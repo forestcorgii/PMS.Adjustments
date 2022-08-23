@@ -17,6 +17,10 @@ namespace Pms.Adjustments.Domain
         public string CutoffId { get; set; }
 
 
+        public string PayrollCode { get; set; }
+
+        public string BankCategory { get; set; }
+
         public double Amount { get; set; }
         public bool Deducted { get; set; }
         public string Remarks { get; set; }

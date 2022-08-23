@@ -4,4 +4,18 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="nupkg\**" />
+    <EmbeddedResource Remove="nupkg\**" />
+    <None Remove="nupkg\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="CreateNuGetDebug.nuspec" />
+    <None Remove="MultiProjPack Debug.bat" />
+    <None Remove="MultiProjPack Release.bat" />
+    <None Remove="MultiProjPack Update.bat" />
+    <None Remove="MultiProjPack.xml" />
+  </ItemGroup>
+
 </Project>

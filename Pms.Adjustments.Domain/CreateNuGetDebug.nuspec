@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Pms.Adjustments</id>
+    <version>1.0.0-preview003</version>
+    <authors>you must give a list of author(s)</authors>
+    <description>you must provide a description of the NuGet</description>
+    <releaseNotes>optional: what is changed in this release?</releaseNotes>
+    <dependencies>
+      <group targetFramework="net5.0">
+        <dependency id="Microsoft.EntityFrameworkCore" version="5.0.17" />
+        <dependency id="Microsoft.EntityFrameworkCore.Abstractions" version="5.0.17" />
+        <dependency id="Microsoft.EntityFrameworkCore.Design" version="5.0.17" />
+        <dependency id="Microsoft.EntityFrameworkCore.Proxies" version="5.0.17" />
+        <dependency id="Microsoft.EntityFrameworkCore.Relational" version="5.0.17" />
+        <dependency id="MySql.EntityFrameworkCore" version="5.0.16" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\Pms.Adjustments.Domain\bin\Debug\net5.0\Pms.Adjustments.Domain.dll" target="lib\net5.0" />
+    <file src="..\Pms.Adjustments.Domain\bin\Debug\net5.0\Pms.Adjustments.Domain.pdb" target="lib\net5.0" />
+    <file src="..\Pms.Adjustments.Persistence\bin\Debug\net5.0\Pms.Adjustments.Persistence.dll" target="lib\net5.0" />
+    <file src="..\Pms.Adjustments.Persistence\bin\Debug\net5.0\Pms.Adjustments.Persistence.pdb" target="lib\net5.0" />
+    <file src="..\Pms.Adjustments.ServiceLayer.EfCore\bin\Debug\net5.0\Pms.Adjustments.ServiceLayer.EfCore.dll" target="lib\net5.0" />
+    <file src="..\Pms.Adjustments.ServiceLayer.EfCore\bin\Debug\net5.0\Pms.Adjustments.ServiceLayer.EfCore.pdb" target="lib\net5.0" />
+    <file src="..\Pms.Adjustments.ServiceLayer.Files\bin\Debug\net5.0\Pms.Adjustments.ServiceLayer.Files.dll" target="lib\net5.0" />
+    <file src="..\Pms.Adjustments.ServiceLayer.Files\bin\Debug\net5.0\Pms.Adjustments.ServiceLayer.Files.pdb" target="lib\net5.0" />
+  </files>
+</package>

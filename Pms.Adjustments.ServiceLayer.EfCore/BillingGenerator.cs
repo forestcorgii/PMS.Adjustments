@@ -61,7 +61,7 @@ namespace Pms.Adjustments.ServiceLayer.EfCore
                 string[] rawPCVs = timesheet.RawPCV.Split("|");
                 for (int i = 0; i < rawPCVs.Length; i++)
                 {
-                    string rawPCV = rawPCVs[0];
+                    string rawPCV = rawPCVs[i];
                     string[] rawPcvArgs = rawPCV.Split("~");
                     string remarks = rawPcvArgs[0];
                     double amount = double.Parse(rawPcvArgs[1]);

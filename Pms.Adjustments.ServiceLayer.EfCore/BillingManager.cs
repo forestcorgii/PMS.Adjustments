@@ -22,8 +22,8 @@ namespace Pms.Adjustments.ServiceLayer.EfCore
         {
             Cutoff cutoff = new(cutoffId);
             //TODO: UNCOMMENT ONCE DONE. COMMENTED TO TEST USING OLD DATA.
-            if (cutoff.CutoffDate < DateTime.Now)
-                throw new OldBillingException("", cutoffId);
+            //if (cutoff.CutoffDate < DateTime.Now)
+            //    throw new OldBillingException("", cutoffId);
         }
 
         public void AddBilling(Billing billing)

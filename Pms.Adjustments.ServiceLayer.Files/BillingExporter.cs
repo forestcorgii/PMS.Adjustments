@@ -44,7 +44,9 @@ namespace Pms.Adjustments.ServiceLayer.Files
                     ridx++;
                 }
 
-                using (FileStream nNewPayreg = new FileStream(filename, FileMode.Create, FileAccess.Write))
+                string fileDir = $@"{AppDomain.CurrentDomain.BaseDirectory}EXPORT\BILLING";
+                Directory.CreateDirectory(fileDir);
+                using (FileStream nNewPayreg = new FileStream($@"{fileDir}\{filename}", FileMode.Create, FileAccess.Write))
                     nWorkBook.Write(nNewPayreg);
 
                 return ridx-1;

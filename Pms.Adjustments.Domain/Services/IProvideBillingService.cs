@@ -11,6 +11,7 @@ namespace Pms.Adjustments.Domain.Services
         double GetTotalAdvances(string eeId, string cutoffId);
         //IEnumerable<Billing> GetBillings(string eeId, string cutoffId);
         IEnumerable<Billing> GetBillings(string cutoffId);
-        IEnumerable<Billing> GetBillings(string cutoffId, string adjustmentName);
+        //IEnumerable<Billing> GetBillings(string cutoffId, string adjustmentName);
+        //IEnumerable<string> GetAdjustmentNames(string cutoffId, string payrollCode);
     }
 }

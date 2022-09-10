@@ -43,17 +43,19 @@ namespace Pms.Adjustments.ServiceLayer.EfCore
         {
             var context = _factory.CreateDbContext();
             return context.Billings
+                .Include(b=>b.EE)
                 .Where(b => b.CutoffId.Contains(cutoffId))
                 .ToList();
         }
 
-        public IEnumerable<Billing> GetBillings(string cutoffId, string adjustmentName)
-        {
-            var context = _factory.CreateDbContext();
-            return context.Billings
-                .Where(b => b.AdjustmentName == adjustmentName)
-                .Where(b => b.CutoffId == cutoffId)
-                .ToList();
-        }
+        //public IEnumerable<Billing> GetBillings(string cutoffId, string adjustmentName)
+        //{
+        //    var context = _factory.CreateDbContext();
+        //    return context.Billings
+        //        .Where(b => b.AdjustmentName == adjustmentName)
+        //        .Where(b => b.CutoffId == cutoffId)
+        //        .ToList();
+        //}
+
     }
 }

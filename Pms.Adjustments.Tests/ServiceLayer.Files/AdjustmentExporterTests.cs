@@ -30,7 +30,9 @@ namespace Pms.Adjustments.ServiceLayer.Files.Tests.ServiceLayer.EfCore
             string cutoffId = "2208-1";
             string adjustmentName = "PCV";
             string payrollCode = "P1A";
-            IEnumerable<Domain.Billing> billings = _billingProvider.GetBillings(cutoffId, adjustmentName);
+            IEnumerable<Domain.Billing> billings = _billingProvider.GetBillings(cutoffId)
+                .Where(b=>b.AdjustmentName==adjustmentName);
+            
             int expectedResult = billings.Count();
 
 
@@ -40,7 +42,7 @@ namespace Pms.Adjustments.ServiceLayer.Files.Tests.ServiceLayer.EfCore
             string billingExportFullname = $@"{filedir}\{filename}";
 
             BillingExporter exporter = new();
-            int actualResult = exporter.ExportBillings(billings, adjustmentName, billingExportFullname);
+            int actualResult = exporter.ExportBillings(billings, adjustmentName, filename);
 
             Assert.Equal(expectedResult, actualResult);
         }

@@ -21,7 +21,6 @@ namespace Pms.Adjustments.Domain
 
         public string PayrollCode { get; private set; }
 
-        public string BankCategory { get; private set; }
 
         public string Fullname
         {

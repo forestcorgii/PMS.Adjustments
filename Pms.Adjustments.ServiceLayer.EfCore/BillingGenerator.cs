@@ -21,10 +21,23 @@ namespace Pms.Adjustments.ServiceLayer.EfCore
             //_manageBillingService = manageBillingService;
         }
 
+        public IEnumerable<string> CollectEEIdWithPcv(string cutoffId)
+        {
+            using AdjustmentDbContext context = _factory.CreateDbContext();
+            IEnumerable<string> eeIds = context.Timesheets
+                .Where(ts => ts.RawPCV != "" || ts.Allowance > 0)
+                .Where(ts => ts.CutoffId == cutoffId)
+                .Select(ts => ts.EEId)
+                .ToList();
+
+                return eeIds;
+        }
+
         public IEnumerable<Billing> GenerateBillingFromRecords(string eeId, string cutoffId)
         {
             return default;
         }
+
 
         public IEnumerable<Billing> GenerateBillingFromTimesheetView(string eeId, string cutoffId)
         {
@@ -33,8 +46,6 @@ namespace Pms.Adjustments.ServiceLayer.EfCore
                 .Where(ts => ts.EEId == eeId)
                 .Where(ts => ts.CutoffId == cutoffId)
                 .ToList();
-            
-            
 
             List<Billing> billings = new();
 

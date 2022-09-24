@@ -24,8 +24,8 @@ namespace Pms.Adjustments.Persistence
             builder.Property(cc => cc.BillingId).HasColumnType("VARCHAR(45)").IsRequired();
             builder.Property(cc => cc.CutoffId).HasColumnType("VARCHAR(6)").IsRequired();
             builder.Property(cc => cc.RecordId).HasColumnType("VARCHAR(45)").IsRequired(false);
-            builder.Property(cc => cc.AdjustmentName).HasColumnType("VARCHAR(45)").IsRequired();
             builder.Property(cc => cc.AdjustmentType).HasColumnType("TINYINT").IsRequired();
+            builder.Property(cc => cc.AdjustmentOption).HasColumnType("TINYINT").IsRequired();
             builder.Property(cc => cc.Deducted).HasColumnType("TINYINT").IsRequired();
             builder.Property(cc => cc.Amount).HasColumnType("DOUBLE(8,2)").IsRequired();
             builder.Property(cc => cc.DateCreated).HasColumnType("TIMESTAMP").HasDefaultValueSql("CURRENT_TIMESTAMP").IsRequired();

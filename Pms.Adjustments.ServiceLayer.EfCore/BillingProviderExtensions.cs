@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Pms.Adjustments.Domain;
+using Pms.Adjustments.Domain.Enums;
 using Pms.Adjustments.Domain.Services;
 using Pms.Adjustments.Persistence;
 using System;
@@ -12,13 +13,13 @@ namespace Pms.Adjustments.ServiceLayer.EfCore
 {
     public static class BillingProviderExtensions
     {
-        public static IEnumerable<string> ExtractAdjustmentNames(this IEnumerable<Billing> billings)
+        public static IEnumerable<AdjustmentTypes> ExtractAdjustmentNames(this IEnumerable<Billing> billings)
         {
             return billings
-                .GroupBy(b => b.AdjustmentName)
+                .GroupBy(b => b.AdjustmentType)
                 .Select(n => n.First())
-                .OrderBy(b => b.AdjustmentName)
-                .Select(b => b.AdjustmentName)
+                .OrderBy(b => b.AdjustmentType)
+                .Select(b => b.AdjustmentType)
                 .ToList();
         }
     }

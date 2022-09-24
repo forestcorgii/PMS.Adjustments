@@ -31,7 +31,7 @@ namespace Pms.Adjustments.ServiceLayer.Files.Tests.ServiceLayer.EfCore
             string adjustmentName = "PCV";
             string payrollCode = "P1A";
             IEnumerable<Domain.Billing> billings = _billingProvider.GetBillings(cutoffId)
-                .Where(b=>b.AdjustmentName==adjustmentName);
+                .Where(b=>b.AdjustmentType==adjustmentName);
             
             int expectedResult = billings.Count();
 

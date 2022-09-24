@@ -37,7 +37,7 @@ namespace Pms.Adjustments.ServiceLayer.Files
                     if (billing.EE is not null)
                         nRow.CreateCell(1).SetCellValue(billing.EE.Fullname);
 
-                    nRow.CreateCell(2).SetCellValue(billing.AdjustmentName);
+                    nRow.CreateCell(2).SetCellValue(billing.AdjustmentType.ToString());
                     nRow.CreateCell(3).SetCellValue(billing.Amount);
                     nRow.CreateCell(4).SetCellValue(billing.Remarks);
 

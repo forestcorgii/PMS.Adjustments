@@ -35,7 +35,7 @@ namespace Pms.Adjustments.Domain.Tests.Domain.Models
             Billing _sut = new()
             {
                 EEId = eeId,
-                AdjustmentName = adjustmentName,
+                AdjustmentType = adjustmentName,
                 CutoffId = cutoffId
             };
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Pms.Adjustments.Domain;
+using Pms.Adjustments.Domain.Enums;
 using Pms.Adjustments.Domain.Services;
 using Pms.Adjustments.Persistence;
 using System;
@@ -30,7 +31,7 @@ namespace Pms.Adjustments.ServiceLayer.EfCore
                 .Select(ts => ts.EEId)
                 .ToList();
 
-                return eeIds;
+            return eeIds;
         }
 
         public IEnumerable<Billing> GenerateBillingFromRecords(string eeId, string cutoffId)
@@ -56,9 +57,9 @@ namespace Pms.Adjustments.ServiceLayer.EfCore
                 {
                     EEId = eeId,
                     CutoffId = cutoffId,
-                    AdjustmentName = "ALLOWANCE",
+                    AdjustmentType = AdjustmentTypes.ALLOWANCE,
                     Amount = timesheet.Allowance,
-                    AdjustmentType = AdjustmentChoices.ADJUST1,
+                    AdjustmentOption = AdjustmentOptions.ADJUST1,
                     Deducted = true,
                     DateCreated = DateTime.Now
                 };
@@ -81,9 +82,9 @@ namespace Pms.Adjustments.ServiceLayer.EfCore
                     {
                         EEId = eeId,
                         CutoffId = cutoffId,
-                        AdjustmentName = "PCV",
+                        AdjustmentType = AdjustmentTypes.PCV,
                         Amount = amount,
-                        AdjustmentType = AdjustmentChoices.ADJUST1,
+                        AdjustmentOption = AdjustmentOptions.ADJUST1,
                         Deducted = true,
                         Remarks = remarks,
                         DateCreated = DateTime.Now

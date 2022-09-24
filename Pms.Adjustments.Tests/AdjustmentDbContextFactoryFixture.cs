@@ -56,7 +56,7 @@ namespace Pms.Adjustments.Test
             {
                 EEId = eeId,
                 CutoffId = cutoffId,
-                AdjustmentName = adjustmentName,
+                AdjustmentType = adjustmentName,
                 Amount = amount,
                 Deducted = true,
                 DateCreated = DateTime.Now,

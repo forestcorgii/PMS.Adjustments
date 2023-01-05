@@ -11,6 +11,7 @@ using Pms.Adjustments.Domain.Services;
 using Pms.Adjustments.Test;
 using Pms.Adjustments.ServiceLayer.EfCore;
 using System.IO;
+using Pms.Adjustments.Domain.Enums;
 
 namespace Pms.Adjustments.ServiceLayer.Files.Tests.ServiceLayer.EfCore
 {
@@ -28,23 +29,23 @@ namespace Pms.Adjustments.ServiceLayer.Files.Tests.ServiceLayer.EfCore
         public void ShouldExportBillings()
         {
             string cutoffId = "2208-1";
-            string adjustmentName = "PCV";
+            AdjustmentTypes adjustmentType = AdjustmentTypes.PCV;
             string payrollCode = "P1A";
             IEnumerable<Domain.Billing> billings = _billingProvider.GetBillings(cutoffId)
-                .Where(b=>b.AdjustmentType==adjustmentName);
-            
+                .Where(b => b.AdjustmentType == adjustmentType);
+
             int expectedResult = billings.Count();
 
 
-            string filedir = $@"{AppDomain.CurrentDomain.BaseDirectory}\BILLING\{adjustmentName}";
+            string filedir = $@"{AppDomain.CurrentDomain.BaseDirectory}\BILLING\{adjustmentType}";
             Directory.CreateDirectory(filedir);
-            string filename = $@"{adjustmentName}_{payrollCode}_{cutoffId}.xls";
+            string filename = $@"{adjustmentType}_{payrollCode}_{cutoffId}.xls";
             string billingExportFullname = $@"{filedir}\{filename}";
 
             BillingExporter exporter = new();
-            int actualResult = exporter.ExportBillings(billings, adjustmentName, filename);
+            int actualResult = exporter.ExportBillings(billings, adjustmentType, filename);
 
             Assert.Equal(expectedResult, actualResult);
         }
     }
-}
+}   

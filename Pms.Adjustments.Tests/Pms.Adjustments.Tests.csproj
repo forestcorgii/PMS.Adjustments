@@ -31,4 +31,10 @@
     <Folder Include="Domain\Services\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="TEMPLATES\SSS LOAN.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

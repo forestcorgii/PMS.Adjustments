@@ -11,6 +11,7 @@ namespace Pms.Adjustments.Domain.Services
         IEnumerable<Billing> GenerateBillingFromTimesheetView(string eeId,string cutoffId);
         IEnumerable<Billing> GenerateBillingFromRecords(string eeId,string cutoffId);
 
-        IEnumerable<string> CollectEEIdWithPcv(string cutoffId);
+        IEnumerable<string> CollectEEIdWithPcv(string payrollCodeId, string cutoffId);
+        IEnumerable<string> CollectEEIdWithBillingRecord(string payrollCodeId, string cutoffId);
     }
 }

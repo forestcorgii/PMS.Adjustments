@@ -12,6 +12,7 @@ using Pms.Adjustments.Domain.Services;
 using Pms.Adjustments.Domain.Models;
 using Pms.Adjustments.Domain.Exceptions;
 using Microsoft.EntityFrameworkCore;
+using Pms.Adjustments.Domain.Enums;
 
 namespace Pms.Adjustments.ServiceLayer.EfCore.Tests
 {
@@ -38,11 +39,11 @@ namespace Pms.Adjustments.ServiceLayer.EfCore.Tests
                 BillingId = $"DYYJ_PCV_{_cutoff.CutoffId}_4",
                 EEId = "DYYJ",
                 CutoffId = _cutoff.CutoffId,
-                AdjustmentType = "PCV",
+                AdjustmentType = AdjustmentTypes.PCV,
                 Amount = 600,
-                Deducted = true,
+                Applied = true,
                 DateCreated = DateTime.Now,
-                AdjustmentType = AdjustmentChoices.ADJUST1
+                AdjustmentOption= AdjustmentOptions.ADJUST1
             };
 
             _manageBillingService.AddBilling(expectedBilling);
@@ -54,6 +55,8 @@ namespace Pms.Adjustments.ServiceLayer.EfCore.Tests
             context.Remove(actualBilling);
             context.SaveChanges();
         }
+
+
         [Fact]
         public void ShouldThrowOldBillingExceptionWhenResettingBilling()
         {
@@ -92,11 +95,11 @@ namespace Pms.Adjustments.ServiceLayer.EfCore.Tests
                     BillingId = "FJFC_PCV_2207-2_1",
                     EEId = "FJFC",
                     CutoffId = "2207-2",
-                    AdjustmentType = "PCV",
+                    AdjustmentType = AdjustmentTypes.PCV,
                     Amount = 600,
-                    Deducted = true,
+                    Applied = true,
                     DateCreated = DateTime.Now,
-                    AdjustmentType = AdjustmentChoices.ADJUST1
+                    AdjustmentOption= AdjustmentOptions.ADJUST1
                 };
 
                 _manageBillingService.AddBilling(expectedBilling);

@@ -14,8 +14,10 @@ namespace Pms.Adjustments.Domain.Models
 
         public string EEId { get; set; }
         public EmployeeView EE { get; set; }
-        
+
         public AdjustmentTypes AdjustmentType { get; set; }
+
+        public AdjustmentOptions AdjustmentOption { get; set; }
 
         public double Balance { get; set; }
         public double Advances { get; set; }
@@ -28,6 +30,35 @@ namespace Pms.Adjustments.Domain.Models
         public BillingRecordStatus Status { get; set; }
 
 
-        public DateTime DateCreated { get; set; }
+        public DateTime DateCreated { get; set; } = DateTime.Now;
+
+        public string Remarks { get; set; }
+
+        public static string GenerateId(BillingRecord rec) =>
+             $"{rec.EEId}_{rec.AdjustmentType}_{rec.EffectivityDate:MMyy}";
+
+
+
+
+
+
+        public void Validate()
+        {
+            if (EEId is null)
+                throw new Exception("EE Id should not be blank.");
+
+            if (RecordId is null)
+                throw new Exception("Record Id should not be blank.");
+
+            //if (Balance > Advances)
+            //    throw new Exception("Remaining Balance should not be greater than Advances.");
+
+            if (Amortization > Advances)
+                throw new Exception("Monthly Amortization should not be greater than Advances.");
+        }
+
+
+
+
     }
 }

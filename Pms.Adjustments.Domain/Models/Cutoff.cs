@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Pms.Adjustments.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,8 @@ namespace Pms.Adjustments.Domain.Models
     {
         public string CutoffId { get; private set; }
         public DateTime CutoffDate { get; private set; }
+
+        public DeductionOptions DeductionOption => CutoffDate.Day == 15 ? DeductionOptions.ONLY15TH : DeductionOptions.ONLY30TH;
 
         public Cutoff()
         {

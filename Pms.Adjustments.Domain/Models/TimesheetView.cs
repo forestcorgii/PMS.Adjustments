@@ -11,8 +11,7 @@ namespace Pms.Adjustments.Domain
     {
         public string TimesheetId { get; set; }
         public string EEId { get; set; }
-
-        public string Fullname { get; set; } = "";
+        public EmployeeView EE { get; set; }
 
         public string CutoffId { get; set; }
 

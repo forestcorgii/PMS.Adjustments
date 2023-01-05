@@ -1,4 +1,5 @@
 using Pms.Adjustments.Domain;
+using Pms.Adjustments.Domain.Enums;
 using System;
 using Xunit;
 
@@ -27,15 +28,15 @@ namespace Pms.Adjustments.Domain.Tests.Domain.Models
 
 
         [Theory]
-        [InlineData("DYYJ", "PCV", "2208-1", 0, "DYYJ_PCV_2208-1_0")]
-        [InlineData("TEST", "ALLOWANCE", "2208-2", 1, "TEST_ALLOWANCE_2208-2_1")]
-        public void GenerateIdWithoutRecordIdTestShouldEqual(string eeId, string adjustmentName, string cutoffId, int iterator, string expected)
+        [InlineData("DYYJ", AdjustmentTypes.PCV, "2208-1", 0, "DYYJ_PCV_2208-1_0")]
+        [InlineData("TEST", AdjustmentTypes.ALLOWANCE, "2208-2", 1, "TEST_ALLOWANCE_2208-2_1")]
+        public void GenerateIdWithoutRecordIdTestShouldEqual(string eeId, AdjustmentTypes adjustmentType, string cutoffId, int iterator, string expected)
         {
             // GIVEN
             Billing _sut = new()
             {
                 EEId = eeId,
-                AdjustmentType = adjustmentName,
+                AdjustmentType = adjustmentType,
                 CutoffId = cutoffId
             };
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Pms.Adjustments.Domain;
+using Pms.Adjustments.Domain.Enums;
 using Pms.Adjustments.Domain.Models;
 using Pms.Adjustments.Persistence;
 using System;
@@ -24,7 +25,7 @@ namespace Pms.Adjustments.Test
                 using (var context = CreateDbContext())
                 {
                     context.Database.Migrate();
-                    TrySeeding(context);
+                    //TrySeeding(context);
                 }
 
                 _databaseInitialized = true;
@@ -36,10 +37,10 @@ namespace Pms.Adjustments.Test
             Cutoff cutoff = new();
             List<Billing> billings = new()
             {
-                AddSeedBilling("DYYJ", cutoff.CutoffId, "PCV",  300),
-                AddSeedBilling("DYYJ", cutoff.CutoffId, "ALLOWANCE", 300),
-                AddSeedBilling("DYYJ", "2207-1", "PCV",  300),
-                AddSeedBilling("FJFC",  "2207-1", "ALLOWANCE", 1000),
+                AddSeedBilling("DYYJ", cutoff.CutoffId, AdjustmentTypes.PCV,  300),
+                AddSeedBilling("DYYJ", cutoff.CutoffId, AdjustmentTypes.ALLOWANCE, 300),
+                AddSeedBilling("DYYJ", "2207-1", AdjustmentTypes.PCV,  300),
+                AddSeedBilling("FJFC",  "2207-1", AdjustmentTypes.ALLOWANCE, 1000),
             };
 
             foreach (Billing billing in billings)
@@ -50,17 +51,17 @@ namespace Pms.Adjustments.Test
             context.SaveChanges();
         }
 
-        private Billing AddSeedBilling(string eeId, string cutoffId, string adjustmentName, double amount, int iterator = 0)
+        private Billing AddSeedBilling(string eeId, string cutoffId, AdjustmentTypes adjustmentType, double amount, int iterator = 0)
         {
             Billing billing = new()
             {
                 EEId = eeId,
                 CutoffId = cutoffId,
-                AdjustmentType = adjustmentName,
+                AdjustmentType = adjustmentType,
                 Amount = amount,
-                Deducted = true,
+                Applied = true,
                 DateCreated = DateTime.Now,
-                AdjustmentType = AdjustmentChoices.ADJUST1
+                AdjustmentOption = AdjustmentOptions.ADJUST1
             };
             billing.BillingId = Billing.GenerateId(billing, iterator);
 

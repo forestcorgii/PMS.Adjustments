@@ -1,6 +1,7 @@
 ﻿using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 using Pms.Adjustments.Domain;
+using Pms.Adjustments.Domain.Enums;
 using Pms.Adjustments.Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -12,12 +13,12 @@ namespace Pms.Adjustments.ServiceLayer.Files
     public class BillingExporter
     {
 
-        public int ExportBillings(IEnumerable<Billing> billings, string adjustmentName,string filename)
+        public int ExportBillings(IEnumerable<Billing> billings, string cutoffId, string payrollCodeId, AdjustmentTypes adjustmentName)
         {
             if (billings.Count() > 0)
             {
                 IWorkbook nWorkBook = new HSSFWorkbook();
-                ISheet nSheet = nWorkBook.CreateSheet(adjustmentName);
+                ISheet nSheet = nWorkBook.CreateSheet(adjustmentName.ToString());
 
                 int ridx = 0;
                 IRow nRow = nSheet.CreateRow(ridx);
@@ -44,9 +45,9 @@ namespace Pms.Adjustments.ServiceLayer.Files
                     ridx++;
                 }
 
-                string fileDir = $@"{AppDomain.CurrentDomain.BaseDirectory}EXPORT\BILLING";
+                string fileDir = $@"{AppDomain.CurrentDomain.BaseDirectory}EXPORT\{cutoffId}\{payrollCodeId}\BILLING";
                 Directory.CreateDirectory(fileDir);
-                using (FileStream nNewPayreg = new FileStream($@"{fileDir}\{filename}", FileMode.Create, FileAccess.Write))
+                using (FileStream nNewPayreg = new FileStream($@"{fileDir}\{cutoffId}_{payrollCodeId}_{adjustmentName}.xls", FileMode.Create, FileAccess.Write))
                     nWorkBook.Write(nNewPayreg);
 
                 return ridx-1;

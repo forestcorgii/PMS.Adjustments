@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Pms.Adjustments.Persistence;
 
 namespace Pms.Adjustments.Persistence.Migrations
 {
     [DbContext(typeof(AdjustmentDbContext))]
-    partial class AdjustmentDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220924113146_addedRemarksToBillingRecordEntity")]
+    partial class addedRemarksToBillingRecordEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,9 +33,6 @@ namespace Pms.Adjustments.Persistence.Migrations
                     b.Property<double>("Amount")
                         .HasColumnType("DOUBLE(8,2)");
 
-                    b.Property<byte>("Applied")
-                        .HasColumnType("TINYINT");
-
                     b.Property<string>("CutoffId")
                         .IsRequired()
                         .HasColumnType("VARCHAR(6)");
@@ -41,6 +40,9 @@ namespace Pms.Adjustments.Persistence.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("TIMESTAMP")
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<byte>("Deducted")
+                        .HasColumnType("TINYINT");
 
                     b.Property<string>("EEId")
                         .IsRequired()
@@ -90,9 +92,6 @@ namespace Pms.Adjustments.Persistence.Migrations
                 {
                     b.Property<string>("RecordId")
                         .HasColumnType("VARCHAR(45)");
-
-                    b.Property<int>("AdjustmentOption")
-                        .HasColumnType("int");
 
                     b.Property<byte>("AdjustmentType")
                         .HasColumnType("TINYINT");
@@ -146,14 +145,15 @@ namespace Pms.Adjustments.Persistence.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("EEId")
-                        .HasColumnType("varchar(767)");
+                        .HasColumnType("text");
+
+                    b.Property<string>("Fullname")
+                        .HasColumnType("text");
 
                     b.Property<string>("RawPCV")
                         .HasColumnType("text");
 
                     b.HasKey("TimesheetId");
-
-                    b.HasIndex("EEId");
 
                     b.ToView("timesheet");
                 });
@@ -182,15 +182,6 @@ namespace Pms.Adjustments.Persistence.Migrations
                         .HasForeignKey("EEId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("EE");
-                });
-
-            modelBuilder.Entity("Pms.Adjustments.Domain.TimesheetView", b =>
-                {
-                    b.HasOne("Pms.Adjustments.Domain.EmployeeView", "EE")
-                        .WithMany()
-                        .HasForeignKey("EEId");
 
                     b.Navigation("EE");
                 });

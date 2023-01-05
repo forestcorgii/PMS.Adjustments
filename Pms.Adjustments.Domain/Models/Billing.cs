@@ -19,7 +19,7 @@ namespace Pms.Adjustments.Domain
 
 
         public double Amount { get; set; }
-        public bool Deducted { get; set; }
+        public bool Applied { get; set; }
         public string Remarks { get; set; }
 
         public AdjustmentTypes AdjustmentType { get; set; }

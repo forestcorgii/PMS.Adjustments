@@ -20,7 +20,7 @@ namespace Pms.Adjustments.ServiceLayer.EfCore
 
         private void ValidateCutoffId(string cutoffId)
         {
-            Cutoff cutoff = new(cutoffId);
+            //Cutoff cutoff = new(cutoffId);
             //TODO: UNCOMMENT ONCE DONE. COMMENTED TO TEST USING OLD DATA.
             //if (cutoff.CutoffDate < DateTime.Now)
             //    throw new OldBillingException("", cutoffId);
@@ -31,7 +31,11 @@ namespace Pms.Adjustments.ServiceLayer.EfCore
             ValidateCutoffId(billing.CutoffId);
 
             using AdjustmentDbContext context = _factory.CreateDbContext();
-            context.Add(billing);
+            if (context.Billings.Any(b => b.BillingId == billing.BillingId))
+                context.Update(billing);
+            else
+                context.Add(billing);
+
             context.SaveChanges();
         }
 
@@ -40,7 +44,7 @@ namespace Pms.Adjustments.ServiceLayer.EfCore
             ValidateCutoffId(cutoffId);
 
             using AdjustmentDbContext context = _factory.CreateDbContext();
-            IQueryable<Billing> eeBillings = context.Billings.Where(b => b.EEId == eeId && b.CutoffId == cutoffId);
+            IQueryable<Billing> eeBillings = context.Billings.Where(b => b.EEId == eeId && b.CutoffId == cutoffId && b.Applied);
             context.Billings.RemoveRange(eeBillings);
             context.SaveChanges();
         }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Pms.Adjustments.Domain;
 using Pms.Adjustments.Domain.Enums;
+using Pms.Adjustments.Domain.Models;
 using Pms.Adjustments.Domain.Services;
 using Pms.Adjustments.Persistence;
 using System;
@@ -22,13 +23,29 @@ namespace Pms.Adjustments.ServiceLayer.EfCore
             //_manageBillingService = manageBillingService;
         }
 
-        public IEnumerable<string> CollectEEIdWithPcv(string cutoffId)
+        public IEnumerable<string> CollectEEIdWithPcv(string payrollCodeId, string cutoffId)
         {
             using AdjustmentDbContext context = _factory.CreateDbContext();
             IEnumerable<string> eeIds = context.Timesheets
-                .Where(ts => ts.RawPCV != "" || ts.Allowance > 0)
+                .Include(ts=>ts.EE)
+                .Where(ts => ts.EE.PayrollCode == payrollCodeId)
                 .Where(ts => ts.CutoffId == cutoffId)
+                .Where(ts => ts.RawPCV != "" || ts.Allowance > 0)
                 .Select(ts => ts.EEId)
+                .Distinct()
+                .ToList();
+
+            return eeIds;
+        }
+
+        public IEnumerable<string> CollectEEIdWithBillingRecord(string payrollCodeId, string cutoffId)
+        {
+            using AdjustmentDbContext context = _factory.CreateDbContext();
+            IEnumerable<string> eeIds = context.BillingRecords
+                .Include(b => b.EE)
+                .Where(b => b.EE.PayrollCode == payrollCodeId)
+                .Select(b => b.EEId)
+                .Distinct()
                 .ToList();
 
             return eeIds;
@@ -36,7 +53,40 @@ namespace Pms.Adjustments.ServiceLayer.EfCore
 
         public IEnumerable<Billing> GenerateBillingFromRecords(string eeId, string cutoffId)
         {
-            return default;
+            Cutoff cutoff = new(cutoffId);
+            using AdjustmentDbContext context = _factory.CreateDbContext();
+            IEnumerable<BillingRecord> records = context.BillingRecords
+                .Where(r => r.EEId == eeId)
+                .Where(r => r.Balance > 0)
+                .Where(r => r.DeductionOption == cutoff.DeductionOption || r.DeductionOption == DeductionOptions.EVERYPAYROLL)
+                .Where(r => r.Status == BillingRecordStatus.ON_GOING)
+                .ToList();
+
+            List<Billing> billings = new();
+            foreach (BillingRecord record in records)
+            {
+                if (!context.Billings.Any(b => b.RecordId == record.RecordId && b.CutoffId == cutoffId))
+                {
+                    double amount = record.Amortization;
+                    if (record.Amortization > record.Balance)
+                        amount = record.Balance;
+
+                    Billing billing = new()
+                    {
+                        EEId = eeId,
+                        CutoffId = cutoffId,
+                        AdjustmentType = record.AdjustmentType,
+                        Amount = amount,
+                        AdjustmentOption = AdjustmentOptions.ADJUST2,
+                        Applied = false,
+                        DateCreated = DateTime.Now
+                    };
+                    billing.BillingId = Billing.GenerateId(billing);
+                    billings.Add(billing);
+                }
+            }
+
+            return billings;
         }
 
 
@@ -60,7 +110,7 @@ namespace Pms.Adjustments.ServiceLayer.EfCore
                     AdjustmentType = AdjustmentTypes.ALLOWANCE,
                     Amount = timesheet.Allowance,
                     AdjustmentOption = AdjustmentOptions.ADJUST1,
-                    Deducted = true,
+                    Applied = false,
                     DateCreated = DateTime.Now
                 };
                 billing.BillingId = Billing.GenerateId(billing);
@@ -85,7 +135,7 @@ namespace Pms.Adjustments.ServiceLayer.EfCore
                         AdjustmentType = AdjustmentTypes.PCV,
                         Amount = amount,
                         AdjustmentOption = AdjustmentOptions.ADJUST1,
-                        Deducted = true,
+                        Applied = false,
                         Remarks = remarks,
                         DateCreated = DateTime.Now
                     };
